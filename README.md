@@ -1,52 +1,52 @@
 # SmartMedicine Ball — ...
 
-## 📘 Project Overview
+## Project Overview
 
  **SmartMedicine Ball** ...
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
-### 🧠 `Arduino Scripts/`
-
----
-
-### ⚡ `Electrical Circuit/`
+### `Arduino Scripts/`
 
 ---
 
-### 🧱 `Prototype Sensor Case/`
+### `Electrical Circuit/`
 
 ---
 
-### 📹 `Explanation Video/`
+### `Prototype Sensor Case/`
 
 ---
 
-### 🖥️ `Presentation/`
+### `Explanation Video/`
 
 ---
 
-### 📄 `Scientific Paper/`
+### `Presentation/`
 
 ---
 
-### 🕰️ `Legacy/`
+### `Scientific Paper/`
 
 ---
 
-## 🧩 Summary
+### `Legacy/`
+
+---
+
+## Summary
 
 
 
 ---
 
-## 🔬 Purpose
+## Purpose
 
 ---
 
-## 🧾 License
+## License
 
 ---
 ## 👥 Credits
