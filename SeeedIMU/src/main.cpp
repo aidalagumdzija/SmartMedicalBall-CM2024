@@ -61,5 +61,5 @@ void loop()
     Serial.println("------------------------------");
 
     delay(500);
-    //hej 58
+    //hej 2
 }
