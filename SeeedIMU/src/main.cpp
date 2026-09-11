@@ -124,55 +124,20 @@ void loop()
     float gy = imu.readFloatGyroY();
     float gz = imu.readFloatGyroZ();
 
-    float temp = imu.readTempC();
-
-
     // --------------------------------------------------
     // USB Serial
     // --------------------------------------------------
 
-    Serial.print("A: ");
-    Serial.print(ax, 3);
-    Serial.print(", ");
-    Serial.print(ay, 3);
-    Serial.print(", ");
-    Serial.print(az, 3);
-
-    Serial.print(" | G: ");
-    Serial.print(gx, 2);
-    Serial.print(", ");
-    Serial.print(gy, 2);
-    Serial.print(", ");
-    Serial.print(gz, 2);
-
-    Serial.print(" | T: ");
-    Serial.println(temp, 1);
+    Serial.printf("A: %.2f, %.2f, %.2f" , ax, ay, az);
+    Serial.printf(" | G: %.2f, %.2f, %.2f \n", gx, gy, gz);
 
 
     // --------------------------------------------------
     // Bluetooth
     // --------------------------------------------------
 
-if (Bluefruit.connected())  {
-    bleuart.print("AX: ");
-    bleuart.print(ax, 3);
-
-    bleuart.print("  AY: ");
-    bleuart.print(ay, 3);
-
-    bleuart.print("  AZ: ");
-    bleuart.print(az, 3);
-
-    bleuart.print("  GX: ");
-    bleuart.print(gx, 2);
-
-    bleuart.print("  GY: ");
-    bleuart.print(gy, 2);
-
-    bleuart.print("  GZ: ");
-    bleuart.print(gz, 2);
-
-    bleuart.print("  TEMP: ");
-    bleuart.println(temp, 1);
-}
+    if (Bluefruit.connected())  {
+        bleuart.printf("A:%.2f,%.2f,%.2f" , ax, ay, az);
+        bleuart.printf("G:%.2f,%.2f,%.2f", gx, gy, gz);
+    }   
 }
