@@ -3,66 +3,55 @@
 #include <bluefruit.h>
 #include <LSM6DS3.h>
 #include <Wire.h>
+#include <math.h>
 
 LSM6DS3 imu(I2C_MODE, 0x6A);
+BLEUart bleuart; // Bluetooth "seriell port"
 
-// Bluetooth "seriell port"
-BLEUart bleuart;
+float ax, ay, az; // Acceleration i g-krafter
+float atot; // Total acceleration
 
+bool sampleTimer();
+void getIMUdata();
+void printToBluetooth();
+void printToSerialMonitor();
 
-// --------------------------------------------------
-// Starta Bluetooth advertising
-// --------------------------------------------------
-void startAdvertising()
-{
-    // BLE-flaggor
-    Bluefruit.Advertising.addFlags(
+enum ballState {
+    IDLE,
+    MOVING,
+    IMPACT
+};
+
+// ----- Starta Bluetooth advertising ---------------------------------
+void startAdvertising() {
+    Bluefruit.Advertising.addFlags( // BLE-flaggor
         BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE
     );
-
-    // Lägg med sändareffekt
-    Bluefruit.Advertising.addTxPower();
-
-    // Lägg till Nordic UART Service
-    Bluefruit.Advertising.addService(bleuart);
-
-    // Enhetsnamnet läggs i scan response
-    Bluefruit.ScanResponse.addName();
-
-    // Börja annonsera igen automatiskt efter disconnect
-    Bluefruit.Advertising.restartOnDisconnect(true);
-
-    // Advertising-intervall
-    Bluefruit.Advertising.setInterval(32, 244);
-
-    // Kör snabb advertising i 30 sekunder
-    Bluefruit.Advertising.setFastTimeout(30);
-
-    // 0 = annonsera tills någon ansluter
-    Bluefruit.Advertising.start(0);
+    Bluefruit.Advertising.addTxPower(); // Lägg med sändareffekt
+    Bluefruit.Advertising.addService(bleuart); // Lägg till Nordic UART Service
+    Bluefruit.ScanResponse.addName(); // Enhetsnamnet läggs i scan response
+    Bluefruit.Advertising.restartOnDisconnect(true); // Börja annonsera igen automatiskt efter disconnect
+    Bluefruit.Advertising.setInterval(32, 244); // Advertising-intervall
+    Bluefruit.Advertising.setFastTimeout(30); // Kör snabb advertising i 30 sekunder
+    Bluefruit.Advertising.start(0); // 0 = annonsera tills någon ansluter
 }
 
 
-// --------------------------------------------------
-// Setup
-// --------------------------------------------------
-void setup()
-{
+// ----- Setup ---------------------------------------------
+void setup() {
     Serial.begin(115200);
 
     // Vänta INTE för alltid på USB Serial.
     // Annars kommer programmet stanna här när du kör utan kabel.
     unsigned long startTime = millis();
 
-    while (!Serial && millis() - startTime < 3000)
-    {
+    while (!Serial && millis() - startTime < 3000) {
         delay(10);
     }
 
     Serial.println("Startar IMU...");
 
-    if (imu.begin() != 0)
-    {
+    if (imu.begin() != 0) {
         Serial.println("FEL: Kunde inte starta IMU.");
 
         while (1)
@@ -75,69 +64,83 @@ void setup()
 
     pinMode(LED_BUILTIN, OUTPUT);
 
-    // --------------------------------------------------
-    // Bluetooth
-    // --------------------------------------------------
-
+    // ----- Bluetooth ---------------------------------------------
     Serial.println("Startar Bluetooth...");
-
     Bluefruit.begin();
-
-    // Sändareffekt i dBm
-    Bluefruit.setTxPower(4);
-
-    // Namnet som syns på telefon/dator
-    Bluefruit.setName("XIAO-IMU");
-
-    // Starta Nordic UART Service
-    bleuart.begin();
-
-    // Börja advertising
-    startAdvertising();
+    Bluefruit.setTxPower(4); // Sändareffekt i dBm
+    Bluefruit.setName("XIAO-IMU"); // Namnet som syns på telefon/dator
+    bleuart.begin(); // Starta Nordic UART Service
+    startAdvertising(); // Börja advertising
 
     Serial.println("Bluetooth startat.");
     Serial.println("Sök efter: XIAO-IMU");
+
 }
 
-
-// --------------------------------------------------
-// Loop
-// --------------------------------------------------
-void loop()
-{
-    static unsigned long previousMillis = 0;
-
-    // 100 ms = 10 Hz
-    if (millis() - previousMillis < 100)
-    {
+// ----- Loop ---------------------------------------------
+void loop() {
+    // Kontrollera om det är dags att ta ett nytt sample
+    if (!sampleTimer()) {
         return;
     }
 
-    previousMillis = millis();
+    //Get IMU data
+    getIMUdata();
 
-    // Läs IMU
-    float ax = imu.readFloatAccelX();
-    float ay = imu.readFloatAccelY();
-    float az = imu.readFloatAccelZ();
+    //Print data to bluetooth and serial monitor
+    printToBluetooth();
+    printToSerialMonitor();
 
-    float gx = imu.readFloatGyroX();
-    float gy = imu.readFloatGyroY();
-    float gz = imu.readFloatGyroZ();
+    
+}
 
-    // --------------------------------------------------
-    // USB Serial
-    // --------------------------------------------------
+// ----- Hjälpfunktioner ---------------------------------------------
+String stateToString(ballState state) {
+    switch (state) {
+        case IDLE:
+            return "IDLE";
+        case MOVING:
+            return "MOVING";
+        case IMPACT:
+            return "IMPACT";
+        default:
+            return "UNKNOWN";
+    }
+}
 
-    Serial.printf("A: %.2f, %.2f, %.2f" , ax, ay, az);
-    Serial.printf(" | G: %.2f, %.2f, %.2f \n", gx, gy, gz);
+bool sampleTimer() {
+    static unsigned long lastSampleTime = 0;
+    unsigned long currentMillis = millis();
 
+    // Sample every 100 ms (10 Hz)
+    if (currentMillis - lastSampleTime >= 100) {
+        lastSampleTime = currentMillis;
+        return true;
+    }
+    return false;
+}
 
-    // --------------------------------------------------
-    // Bluetooth
-    // --------------------------------------------------
+void getIMUdata() {
+    // Läs av accelerometer
+    ax = imu.readFloatAccelX();
+    ay = imu.readFloatAccelY();
+    az = imu.readFloatAccelZ();
 
-    if (Bluefruit.connected())  {
-        bleuart.printf("A:%.2f,%.2f,%.2f" , ax, ay, az);
-        bleuart.printf("G:%.2f,%.2f,%.2f", gx, gy, gz);
-    }   
+    // Beräkna total acceleration
+    atot = sqrt(ax * ax + ay * ay + az * az);
+}
+
+void printToBluetooth() {
+    //bleuart.printf("A:%.2f,%.2f,%.2f\n", ax, ay, az);
+        if (atot > 2) {
+            bleuart.println("IMPACT!");
+        }
+    bleuart.printf("Atot: %.2f\n", atot);
+}
+
+void printToSerialMonitor() {
+    if (atot > 2) {
+        Serial.println("IMPACT!");
+    }
+    Serial.printf("Atot: %.2f \n", atot);
 }
