@@ -168,7 +168,7 @@ bool throwingDetected() {
         }
     }
 
-    if(increasingValues >= 3 && atot > throwThreshold) {    //
+    if(increasingValues >= 3 && atot > throwThreshold) {  
         return true;
     }
     return false;
@@ -237,7 +237,18 @@ void printToBluetooth() {
     if (Bluefruit.connected()) {
         //bleuart.printf("A:%.2f,%.2f,%.2f\n", ax, ay, az);
         //bleuart.printf("Atot: %.2f\n", atot);
-        bleuart.printf("A: %.2f  S: %s  R: %d\n",
+        /*
+        bleuart.printf("A: %.2f  S: %s  R: %d\r\n",
                          atot, stateToString(currentState).c_str(), repCounter);
+                         */
+        char buffer[40];
+
+        snprintf(buffer, sizeof(buffer),
+                 "A: %.2f  S: %s  R: %d",
+                 atot,
+                 stateToString(currentState).c_str(),
+                 repCounter);
+
+        bleuart.println(buffer);
     }
 }
