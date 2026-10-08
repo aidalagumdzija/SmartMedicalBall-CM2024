@@ -53,3 +53,6 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# För att kod ska fungera mellan MAC och Windows sparas .ini filerna lokalt
+.ini 
