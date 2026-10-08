@@ -31,7 +31,7 @@ void updateHistory();
 const float idleMax = 1.2; // Max acceleration i g-krafter för att vara i IDLE
 const float idleMin = 0.8; // Min acceleration i g-krafter för att vara i IDLE
 const float throwThreshold = 1.5; 
-const float impactThreshold = 5.0; 
+const float impactThreshold = 3.0; 
 const float freeFallThreshold = 0.5; 
 
 //----- Array ---------------------------------------------
@@ -45,9 +45,8 @@ int historyIndex = 0; // Index för att hålla reda på var i arrayen vi är
 enum ballState {
     IDLE,
     THROWING,
-    FREE_FALL1,
+    FREE_FALL,
     IMPACT,
-    FREE_FALL2,
     REP_DONE
 };
 
@@ -63,11 +62,13 @@ void setup() {
             delay(1000);
         }
     }
-
+  //  Bluefruit.configPrphConn(BLE_GATT_MAX_MTU_SIZE, 6, 12, BLE_SRK_LEN);
     Bluefruit.begin();
+    Bluefruit.Periph.setConnInterval(6, 12);
     Bluefruit.setTxPower(4); // Sändareffekt i dBm
     Bluefruit.setName("1.BOB"); // Namnet som syns på telefon/dator
     bleuart.begin(); // Starta Nordic UART Service
+    
     startAdvertising(); // Börja advertising av Bluetooth
 
     /* 
@@ -121,34 +122,29 @@ void detectBallState() {
 
     case THROWING:
         if(atot < freeFallThreshold) {
-            currentState = FREE_FALL1;
+            currentState = FREE_FALL;
         }
         break;
 
-    case FREE_FALL1:
+    case FREE_FALL:
         if(atot > impactThreshold) {
             currentState = IMPACT;
+        } else if (isBallIdle()) { 
+            // Nödutgång om kastet/fångsten var så mjuk att ingen stöt spikade högt
+            currentState = IDLE;
         }
         break;
 
     case IMPACT:
-        if(atot < freeFallThreshold) {
-            currentState = FREE_FALL2;
-        }
-        break;
-
-    case FREE_FALL2:
-        if(isBallIdle()) {
+        if(atot<throwThreshold) {
             currentState = REP_DONE;
         }
         break;
-
-    case REP_DONE:
-        if(isBallIdle()) {
-            bleuart.println("Repetition klar!");
-            repCounter++;
-            currentState = IDLE;
-        }
+   
+    case REP_DONE:        
+        bleuart.println("Repetition klar!");
+        repCounter++;
+        currentState = IDLE;
         break;
     
     default:
@@ -204,17 +200,15 @@ void getIMUdata() {
 String stateToString(ballState state) {
     switch (state) {
         case IDLE:
-            return "IDLE";
+            return "ID";
         case THROWING:
-            return "THROWING";
-        case FREE_FALL1:
-            return "FREE_FALL1";
+            return "TH";
+        case FREE_FALL:
+            return "FF";
         case IMPACT:
-            return "IMPACT";
-        case FREE_FALL2:
-            return "FREE_FALL2";
+            return "IM";
         case REP_DONE: 
-            return "REP_DONE";
+            return "RD";
         default:
             return "UNKNOWN";
     }
@@ -241,10 +235,10 @@ void printToBluetooth() {
         bleuart.printf("A: %.2f  S: %s  R: %d\r\n",
                          atot, stateToString(currentState).c_str(), repCounter);
                          */
-        char buffer[40];
+        char buffer[20];
 
         snprintf(buffer, sizeof(buffer),
-                 "A: %.2f  S: %s  R: %d",
+                 "%.2f, %s, %d",
                  atot,
                  stateToString(currentState).c_str(),
                  repCounter);
