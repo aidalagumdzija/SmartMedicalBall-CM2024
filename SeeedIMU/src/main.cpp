@@ -123,6 +123,9 @@ void detectBallState() {
     case THROWING:
         if(atot < freeFallThreshold) {
             currentState = FREE_FALL;
+            
+        }else if (isBallIdle()) {
+        currentState = IDLE; // Kastet avbröts/bollen lades ner -> återgå till IDLE!
         }
         break;
 
