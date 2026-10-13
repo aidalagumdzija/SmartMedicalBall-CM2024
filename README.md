@@ -120,7 +120,7 @@ If you use, modify, or build upon this project, please acknowledge the original 
 
 ## 👥 Credits
 
-- **Smart Medicine Ball Project Group — CM2024, KTH Royal Institute of Technology** — Development, implementation, testing, and documentation of the Smart Medicine Ball project.
+- **SmartMedicineBall (2026) — CM2024, KTH Royal Institute of Technology** — Development, implementation, testing, and documentation of the Smart Medicine Ball project.
 - **SmartServeBall (2025)** — The structure of this README was inspired by their project.
 
 ### Attribution for Future Projects
