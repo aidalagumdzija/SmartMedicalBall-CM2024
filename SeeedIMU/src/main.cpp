@@ -25,14 +25,14 @@ void detectBallState();
 bool throwingDetected();
 bool isBallIdle ();
 void updateHistory();   
-
+void checkBluetoothInput();
 //----- Konstanter ---------------------------------------------
 
-const float idleMax = 1.2; // Max acceleration i g-krafter för att vara i IDLE
+const float idleMax = 1.25; // Max acceleration i g-krafter för att vara i IDLE
 const float idleMin = 0.8; // Min acceleration i g-krafter för att vara i IDLE
 const float throwThreshold = 1.5; 
-const float impactThreshold = 3.0; 
-const float freeFallThreshold = 0.5; 
+const float impactThreshold = 1.8; 
+const float freeFallThreshold = 0.45; 
 
 //----- Array ---------------------------------------------
 
@@ -88,6 +88,7 @@ void setup() {
 
 // ----- Loop ---------------------------------------------
 void loop() {
+    checkBluetoothInput();
     // Kontrollera om det är dags att ta ett nytt sample
     if (!sampleTimer()) {
         return;
@@ -247,5 +248,17 @@ void printToBluetooth() {
                  repCounter);
 
         bleuart.println(buffer);
+    }
+}
+void checkBluetoothInput() {
+    // Om det finns data att läsa från BLE UART
+    while (bleuart.available()) {
+        char ch = (char) bleuart.read();
+
+        // Om du skickar tecknet 'r' eller 'R' nollställs räknaren
+        if (ch == 'r' || ch == 'R') {
+            repCounter = 0;
+            bleuart.println("Counter reset!");
+        }
     }
 }
