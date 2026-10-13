@@ -19,10 +19,6 @@ Contains the Arduino/C++ source code for sensor data acquisition, motion detecti
 
 ---
 
-### `Electrical Circuit/`
-Contains documentation of the electronic components and hardware configuration used in the prototype.
-
----
 
 ### `Prototype Sensor Case/`
 Contains CAD models and 3D-printing files for the sensor enclosure designed in Autodesk Inventor.
