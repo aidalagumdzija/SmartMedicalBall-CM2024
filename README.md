@@ -1,75 +1,116 @@
-# SmartMedicine Ball — Smart Training Performance Tracker
+# 🏐 SmartMedicine Ball — Smart Training Performance Tracker
 
-## Project Overview
+## 📘 Project Overview
 
-**SmartMedicine Ball** is a smart medicine ball prototype developed as part of the CM2024 Technology and Health Project Course at KTH Royal Institute of Technology.
+The **SmartMedicine Ball** project combines embedded sensing, wireless communication, and motion analysis to automatically detect and count repetitions during medicine ball exercises.
 
-The project aims to improve performance tracking during medicine ball exercises by automatically detecting and counting repetitions.
+The goal is to simplify performance tracking during high-intensity workouts, such as HYROX and CrossFit, where athletes would otherwise need to manually count their repetitions.
 
-The system uses a Seeed Studio XIAO nRF52840 microcontroller with a built-in Inertial Measurement Unit (IMU) to measure acceleration and angular velocity. The sensor data is processed using Arduino/C++ algorithms to identify different motion states and detect completed throws.
+Using a **Seeed Studio XIAO nRF52840** microcontroller with a built-in 6-axis IMU (LSM6DS3), the system measures acceleration and angular velocity to identify:
 
-The collected data is transmitted via Bluetooth Low Energy (BLE) to a web application, allowing users to monitor their training performance.
+- When the medicine ball is stationary.
+- When the ball is in motion.
+- When a throw has been detected.
+- The number of completed repetitions.
 
----
+The processed data is transmitted via **Bluetooth Low Energy (BLE)** to a web application, allowing users to monitor their training performance.
 
-## Repository Structure
-
-### `Arduino Scripts/`
-Contains the Arduino/C++ source code for sensor data acquisition, motion detection, repetition counting, and Bluetooth communication.
-
----
-
-
-### `Prototype Sensor Case/`
-Contains CAD models and 3D-printing files for the sensor enclosure designed in Autodesk Inventor.
+This project was developed as part of the **CM2024 Technology and Health Project Course at KTH Royal Institute of Technology**.
 
 ---
 
-### `Explanation Video/`
-Contains a video demonstrating the prototype and explaining its functionality.
+## 📁 Repository Structure
+
+### 💻 `Arduino Scripts/`
+
+Contains the embedded Arduino/C++ code developed for the SmartMedicine Ball, including:
+
+- IMU sensor data acquisition and processing.
+- Motion state identification using acceleration measurements.
+- Throw detection and repetition counting algorithms.
+- Bluetooth Low Energy (BLE) communication.
+
+The code is developed for the Seeed Studio XIAO nRF52840 microcontroller.
 
 ---
 
-### `Presentation/`
-Contains presentation materials describing the project's development, implementation, and results.
+### 🛠️ `Prototype Design/`
+
+Contains the design files and images of the physical prototype, including:
+
+- Autodesk Inventor CAD files for the sensor enclosure.
+- 3D-printing files for the enclosure.
+- Images of the assembled prototype.
+
+The enclosure is designed to secure and protect the electronic components inside the medicine ball during exercise.
 
 ---
 
-### `Scientific Paper/`
-Contains the final scientific report, including the methodology, experimental results, discussion, and conclusions.
+### 🎥 `Explanation Video/`
+
+Contains a demonstration video presenting:
+
+- The SmartMedicine Ball prototype.
+- An explanation of the system and its functionality.
+- A demonstration of the repetition-counting process.
 
 ---
 
-### `Legacy/`
-Contains previous code versions, experiments, and earlier prototype implementations retained for reference.
+### 📊 `Presentation/`
+
+Contains project presentation materials covering:
+
+- Project background and objectives.
+- Hardware and software development.
+- System implementation.
+- Experimental results and conclusions.
 
 ---
 
-## Summary
+### 📄 `Scientific Paper/`
 
-The SmartMedicine Ball project demonstrates how motion sensor technology can be integrated into sports equipment to automatically track exercise repetitions.
+Contains the scientific report documenting:
 
-By processing acceleration and angular velocity measurements, the prototype identifies medicine ball movements and detects completed throws. The collected information is transmitted wirelessly to a web application, providing users with training feedback.
-
----
-
-## Purpose
-
-The purpose of this project is to develop a smart medicine ball that simplifies performance tracking during exercise.
-
-The main objectives are to:
-
-- Detect medicine ball throws using IMU sensor data.
-- Automatically count completed repetitions.
-- Identify different motion states through sensor data processing.
-- Transmit training data using Bluetooth Low Energy.
-- Display training information through a web application.
+- Project background and related research.
+- Hardware design and methodology.
+- Motion detection algorithms.
+- Experimental testing and results.
+- Discussion, limitations, and conclusions.
 
 ---
 
-## License
+### 🗃️ `Legacy/`
 
-This project was developed for educational purposes as part of the CM2024 Technology and Health Project Course at KTH Royal Institute of Technology.
+Contains earlier versions of source code, experiments, and prototype implementations retained for reference and future development.
+
+---
+
+## 🧩 Summary
+
+| Component | Description |
+|---|---|
+| **Microcontroller** | Seeed Studio XIAO nRF52840 |
+| **Motion Sensor** | Built-in 6-axis IMU (LSM6DS3) |
+| **Embedded Software** | Arduino/C++ for motion detection and repetition counting |
+| **Wireless Communication** | Bluetooth Low Energy (BLE) |
+| **Web Application** | Visualization of training data |
+| **Mechanical Design** | 3D-printed sensor enclosure designed in Autodesk Inventor |
+| **Documentation** | Scientific report and project presentation |
+| **Demonstration** | Prototype explanation video |
+
+---
+
+## 🎯 Purpose
+
+The SmartMedicine Ball project demonstrates how embedded sensor technology can be integrated into conventional sports equipment to provide automatic repetition counting and training feedback.
+
+The prototype serves as a foundation for further development of sensor-based performance tracking in sports technology.
+
+---
+
+## 📜 License
+
+This project was developed for educational purposes as part of the **CM2024 Technology and Health Project Course at KTH Royal Institute of Technology**.
 
 No specific open-source license has been assigned.
 
@@ -82,6 +123,8 @@ If you use, modify, or build upon this project, please acknowledge the original 
 - **SmartMedicine Ball Project Group — CM2024, KTH Royal Institute of Technology** — Development, implementation, testing, and documentation of the project.
 - **SmartServeBall (2025)** — The structure of this README was inspired by their project.
 
-### Attribution
+### Attribution for Future Projects
 
 If you use, modify, or build upon any part of this project, including its source code, hardware design, algorithms, or documentation, please give appropriate credit to the **SmartMedicine Ball Project Group** and include a link to this GitHub repository.
+
+We encourage future students and developers to build upon this work while acknowledging the original contributions.
