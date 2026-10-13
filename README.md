@@ -1,5 +1,4 @@
-# ![Uploading image.png…]()
- Smart Medicine Ball — Smart Training Performance Tracker
+# 🏋️⚕️⚫Smart Medicine Ball — Smart Training Performance Tracker
 
 ## 📘 Project Overview
 
