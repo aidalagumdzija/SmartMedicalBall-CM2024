@@ -1,10 +1,10 @@
-# 🏐 SmartMedicine Ball — Smart Training Performance Tracker
+# 🏐 Smart Medicine Ball — Smart Training Performance Tracker
 
 ## 📘 Project Overview
 
-The **SmartMedicine Ball** project combines embedded sensing, wireless communication, and motion analysis to automatically detect and count repetitions during medicine ball exercises.
+The **Smart Medicine Ball** project combines embedded sensor technology, wireless communication, and motion analysis to automatically detect and count repetitions during medicine ball exercises.
 
-The goal is to simplify performance tracking during high-intensity workouts, such as HYROX and CrossFit, where athletes would otherwise need to manually count their repetitions.
+The goal is to simplify performance tracking during high-intensity workouts, such as HYROX and CrossFit, where athletes often need to manually count their repetitions.
 
 Using a **Seeed Studio XIAO nRF52840** microcontroller with a built-in 6-axis IMU (LSM6DS3), the system measures acceleration and angular velocity to identify:
 
@@ -21,9 +21,9 @@ This project was developed as part of the **CM2024 Technology and Health Project
 
 ## 📁 Repository Structure
 
-### 💻 `Arduino Scripts/`
+### 💻 `SeeedIMU/`
 
-Contains the embedded Arduino/C++ code developed for the SmartMedicine Ball, including:
+Contains the Arduino/C++ source code developed for the Smart Medicine Ball, including:
 
 - IMU sensor data acquisition and processing.
 - Motion state identification using acceleration measurements.
@@ -50,7 +50,7 @@ The enclosure is designed to secure and protect the electronic components inside
 
 Contains a demonstration video presenting:
 
-- The SmartMedicine Ball prototype.
+- The Smart Medicine Ball prototype.
 - An explanation of the system and its functionality.
 - A demonstration of the repetition-counting process.
 
@@ -102,7 +102,7 @@ Contains earlier versions of source code, experiments, and prototype implementat
 
 ## 🎯 Purpose
 
-The SmartMedicine Ball project demonstrates how embedded sensor technology can be integrated into conventional sports equipment to provide automatic repetition counting and training feedback.
+The Smart Medicine Ball project demonstrates how embedded sensor technology can be integrated into conventional sports equipment to provide automatic repetition counting and training feedback.
 
 The prototype serves as a foundation for further development of sensor-based performance tracking in sports technology.
 
@@ -120,11 +120,11 @@ If you use, modify, or build upon this project, please acknowledge the original 
 
 ## 👥 Credits
 
-- **SmartMedicine Ball Project Group — CM2024, KTH Royal Institute of Technology** — Development, implementation, testing, and documentation of the project.
+- **Smart Medicine Ball Project Group — CM2024, KTH Royal Institute of Technology** — Development, implementation, testing, and documentation of the Smart Medicine Ball project.
 - **SmartServeBall (2025)** — The structure of this README was inspired by their project.
 
 ### Attribution for Future Projects
 
-If you use, modify, or build upon any part of this project, including its source code, hardware design, algorithms, or documentation, please give appropriate credit to the **SmartMedicine Ball Project Group** and include a link to this GitHub repository.
+If you use, modify, or build upon any part of this project, including its source code, hardware design, algorithms, or documentation, please give appropriate credit to the **Smart Medicine Ball Project Group** and include a link to this GitHub repository.
 
 We encourage future students and developers to build upon this work while acknowledging the original contributions.
