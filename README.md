@@ -79,19 +79,13 @@ Contains the scientific report documenting:
 
 ---
 
-### 🗃️ `Legacy/`
-
-Contains earlier versions of source code, experiments, and prototype implementations retained for reference and future development.
-
----
-
 ## 🧩 Summary
 
 | Component | Description |
 |---|---|
 | **Microcontroller** | Seeed Studio XIAO nRF52840 |
 | **Motion Sensor** | Built-in 6-axis IMU (LSM6DS3) |
-| **Embedded Software** | Arduino/C++ for motion detection and repetition counting |
+| **Embedded Software** | PlatformIO/C++ for motion detection and repetition counting |
 | **Wireless Communication** | Bluetooth Low Energy (BLE) |
 | **Web Application** | Visualization of training data |
 | **Mechanical Design** | 3D-printed sensor enclosure designed in Autodesk Inventor |
